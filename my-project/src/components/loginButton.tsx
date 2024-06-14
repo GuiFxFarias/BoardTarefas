@@ -1,6 +1,11 @@
 "use client";
 import { Button } from "./ui/button";
-import { GoogleAuthProvider, User, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  User,
+  UserInfo,
+  signInWithPopup,
+} from "firebase/auth";
 import { auth } from "../firebase/firebaseInit";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -11,8 +16,9 @@ export default function Login() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const provider = new GoogleAuthProvider();
+
+  //Função para realizar o login com o Google
   const googleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -23,26 +29,27 @@ export default function Login() {
     }
   };
 
+  //Função para verificar se o usuário está logado
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 
+  //Função para deslogar do sistema
   async function logout() {
     try {
       await signOut(auth);
       console.log("Logout realizado com sucesso.");
+      router.push("/");
     } catch (error) {
       console.error("Erro ao realizar logout:", error);
     }
   }
 
-  console.log(user);
   return (
     <>
       {user ? (
