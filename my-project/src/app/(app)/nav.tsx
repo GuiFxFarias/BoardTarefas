@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "../../components/ui/button";
+import Login from "@/components/loginButton";
 
 export default function Navbar() {
   return (
@@ -13,9 +14,8 @@ export default function Navbar() {
           </Button>
         </Link>
       </div>
-      <Button className="text-white border-white border-[1px] rounded-lg hover:bg-white hover:text-black">
-        Minha Conta
-      </Button>
+
+      <Login />
     </nav>
   );
 }
